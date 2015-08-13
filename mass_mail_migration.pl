@@ -3,10 +3,18 @@
 use strict;
 use warnings;
 
-use Getopt::Long qw(GetOptions);
-my $num_processes;
+use Getopt::Std;
+my %opt;
+my $opt_string = "i:p";
+getopts("$opt_string", \%opt) or usage();
 
-GetOptions('j=s' => \$num_processes);
+my $input_file = $opt{i};
+my $num_processes = $opt{p};
+
+if(!defined($input_file)) {
+	print "Usage: mass_mail_migration.pl -i <input_file> -p [max_processes]\n";
+	exit 1;
+}
 
 if(!(defined($num_processes))) {
 	$num_processes = 10;
@@ -19,7 +27,7 @@ use Parallel::ForkManager;
 
 my $pm = Parallel::ForkManager->new($num_processes);
 
-open(my $fh, '<', "data.csv") or die $!;
+open(my $fh, '<', "$input_file") or die $!;
 
 while(my $data = <$fh>) {
 	my @literals = split /,/, $data, 7;
