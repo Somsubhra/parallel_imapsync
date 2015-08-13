@@ -14,3 +14,7 @@ if(!(defined($num_threads))) {
 }
 
 print "Number of threads chosen: $num_threads\n";
+
+use Parallel::ForkManager;
+
+my $pm = Parallel::ForkManager->new($num_threads);
