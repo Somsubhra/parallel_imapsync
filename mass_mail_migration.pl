@@ -63,7 +63,7 @@ while(my $data = <$fh>) {
 	my $local_imap_host = $literals[6];
 
 	my $pid = $pm->start and next;
-	print system("/usr/bin/perl mailbox_sync.pl -u $remote_username -e $local_username -p $remote_password -a $local_password -r $remote_imap_host -o $remote_imap_port -l $local_imap_host");
+	system("/usr/bin/perl mailbox_sync.pl -u $remote_username -e $local_username -p $remote_password -a $local_password -r $remote_imap_host -o $remote_imap_port -l $local_imap_host");
 	$pm->finish;
 }
 
