@@ -27,14 +27,25 @@ use Parallel::ForkManager;
 
 my $pm = Parallel::ForkManager->new($num_processes);
 
+sub get_logging_time {
+    my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=localtime(time);
+    my $nice_timestamp = sprintf ( "%04d/%02d/%02d %02d:%02d:%02d",
+                                   $year+1900,$mon+1,$mday,$hour,$min,$sec);
+    return $nice_timestamp;
+}
+
+open(my $lh, ">>status.log");
+
 $pm->run_on_finish(sub {
-	my ($pid, exit_code, $ident) = @_;
-	# Log to file
+	my ($pid, $exit_code, $ident) = @_;
+	my $timestamp = get_logging_time();
+	print $lh "[$timestamp] Process with pid $pid exited with code $exit_code\n";
 });
 
 $pm->run_on_start(sub {
 	my ($pid, $ident) = @_;
-	# Log to file
+	my $timestamp = get_logging_time();
+	print $lh "[$timestamp] Process started with pid $pid\n";
 });
 
 open(my $fh, '<', "$input_file") or die $!;
