@@ -27,6 +27,16 @@ use Parallel::ForkManager;
 
 my $pm = Parallel::ForkManager->new($num_processes);
 
+$pm->run_on_finish(sub {
+	my ($pid, exit_code, $ident) = @_;
+	# Log to file
+});
+
+$pm->run_on_start(sub {
+	my ($pid, $ident) = @_;
+	# Log to file
+});
+
 open(my $fh, '<', "$input_file") or die $!;
 
 while(my $data = <$fh>) {
