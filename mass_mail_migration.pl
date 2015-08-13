@@ -36,3 +36,5 @@ while(my $data = <$fh>) {
 	print system("/usr/bin/perl mailbox_sync.pl -u $remote_username -e $local_username -p $remote_password -a $local_password -r $remote_imap_host -o $remote_imap_port -l $local_imap_host");
 	$pm->finish;
 }
+
+$pm->wait_all_children;
