@@ -12,7 +12,7 @@ my $input_file = $opt{i};
 my $num_processes = $opt{p};
 
 if(!defined($input_file)) {
-	print "Usage: mass_mail_migration.pl -i <input_file> -p [max_processes]\n";
+	print "Usage: mass_mailbox_sync.pl -i <input_file> -p [max_processes]\n";
 	print "CSV Format: <remote_username>,<local_username>,<remote_password>,<local_password>,<remote_imap_host>,<remote_imap_port>,<local_imap_host>\n";
 	exit 1;
 }
