@@ -73,9 +73,9 @@ my $ID = randomPassword(8);
 if ( $remote_username =~ /\@gmail.com$/ ) {
         syslog('info',"$ID: the from address $remote_username is a google address");
 
-        my @gmail_command = ('/usr/bin/imapsync','--host1','imap.gmail.com','--ssl1','--port1','993','--user1',"$remote_username",'--password1', "$remote_password",'--authmech1','LOGIN','--host2',"$local_hostname",'--port2','143','--user2',"$local_username","--password2","$local_password",'--delete2','--authmech2','LOGIN','--subscribe', '--exclude','All Mail', '--prefix2', 'oldmails/' , '--sep2', '/', '--regextrans2','s/\[Gmail\]//','--allowsizemismatch');
+        my @gmail_command = ('./imapsync','--host1','imap.gmail.com','--ssl1','--port1','993','--user1',"$remote_username",'--password1', "$remote_password",'--authmech1','LOGIN','--host2',"$local_hostname",'--port2','143','--user2',"$local_username","--password2","$local_password",'--delete2','--authmech2','LOGIN','--subscribe', '--exclude','All Mail', '--prefix2', 'oldmails/' , '--sep2', '/', '--regextrans2','s/\[Gmail\]//','--allowsizemismatch');
 
-        syslog('info', "$ID: running /usr/bin/imapsync --host1 imap.gmail.com --ssl1 --port1 993 --user1 $remote_username --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --exclude All Mail --prefix2 oldmails/ --sep2 / --regextrans2 s/\[Gmail\]// --allowsizemismatch");
+        syslog('info', "$ID: running ./imapsync --host1 imap.gmail.com --ssl1 --port1 993 --user1 $remote_username --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --exclude All Mail --prefix2 oldmails/ --sep2 / --regextrans2 s/\[Gmail\]// --allowsizemismatch");
 
         my $gmail_retval = system(@gmail_command);
 
@@ -90,18 +90,18 @@ if ( $remote_username =~ /\@gmail.com$/ ) {
 }
 
 ## Lets try with default seperator
-my @standard_command = ('/usr/bin/imapsync', '--host1', "$remote_hostname", '--user1', "$remote_username", '--port1', "$remote_port", '--password1', "$remote_password", '--authmech1', 'LOGIN', '--host2', "$local_hostname", '--port2', '143', '--user2', "$local_username",  '--password2', "$local_password",'--delete2', '--authmech2', 'LOGIN', '--subscribe', '--sep2', '/', '--prefix2', 'oldmails/', '--exclude', '^Shared Folder');
+my @standard_command = ('./imapsync', '--host1', "$remote_hostname", '--user1', "$remote_username", '--port1', "$remote_port", '--password1', "$remote_password", '--authmech1', 'LOGIN', '--host2', "$local_hostname", '--port2', '143', '--user2', "$local_username",  '--password2', "$local_password",'--delete2', '--authmech2', 'LOGIN', '--subscribe', '--sep2', '/', '--prefix2', 'oldmails/', '--exclude', '^Shared Folder');
 
-syslog('info',"$ID: standard command => /usr/bin/imapsync --host1 $remote_hostname --user1 $remote_username --port1 $remote_port --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --sep2 / --prefix2 oldmails/");
+syslog('info',"$ID: standard command => ./imapsync --host1 $remote_hostname --user1 $remote_username --port1 $remote_port --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --sep2 / --prefix2 oldmails/");
 
 my $standard_retval = system(@standard_command);
 
 if ( $standard_retval != 0 ) {
 syslog('info',"$ID: $remote_username mailbox could not be synced with $local_username default as seperator");
 ## This is some non standard server try with a seperator now
-my @non_standard_command = ('/usr/bin/imapsync', '--host1', "$remote_hostname", '--user1', "$remote_username", '--port1', "$remote_port", '--password1',"$remote_password", '--authmech1', 'LOGIN', '--host2', "$local_hostname", '--port2', '143', '--user2', "$local_username",  '--password2', "$local_password", '--delete2', '--authmech2', 'LOGIN', '--subscribe', '--sep2', '/', '--prefix2', 'oldmails/' , '--sep1','/', '--prefix1', '');
+my @non_standard_command = ('./imapsync', '--host1', "$remote_hostname", '--user1', "$remote_username", '--port1', "$remote_port", '--password1',"$remote_password", '--authmech1', 'LOGIN', '--host2', "$local_hostname", '--port2', '143', '--user2', "$local_username",  '--password2', "$local_password", '--delete2', '--authmech2', 'LOGIN', '--subscribe', '--sep2', '/', '--prefix2', 'oldmails/' , '--sep1','/', '--prefix1', '');
 
-syslog('info',"$ID: non default twisted command => /usr/bin/imapsync --host1 $remote_hostname --user1 $remote_username --port1 $remote_port --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --sep2 / --prefix2 oldmails/ --sep1 / --prefix1");
+syslog('info',"$ID: non default twisted command => ./imapsync --host1 $remote_hostname --user1 $remote_username --port1 $remote_port --password1 $remote_password --authmech1 LOGIN --host2 $local_hostname --port2 143 --user2 $local_username --password2 $local_password --delete2 --authmech2 LOGIN --subscribe --sep2 / --prefix2 oldmails/ --sep1 / --prefix1");
 
         my $non_standard_retval = system(@non_standard_command);
         if ( $non_standard_retval != 0 ) {
