@@ -1,4 +1,4 @@
 #!/bin/sh
 apt-get install -y build-essential
-cpan Mail::ImapClient
+cpan Mail::IMAPClient
 cpan Parallel::ForkManager
