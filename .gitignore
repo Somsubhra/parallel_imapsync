@@ -1,2 +1,5 @@
 *.csv
 *.log
+.vagrant/
+*.swp
+*~
