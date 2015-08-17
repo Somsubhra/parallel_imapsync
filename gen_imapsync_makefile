@@ -28,7 +28,7 @@ class MakefileGenerator:
     def generate(self):
         num_records = len(self.data_list)
 
-        makefile_targets = {}
+        makefile_targets = dict()
 
         makefile_targets["all"] = ""
 
@@ -64,7 +64,8 @@ class MakefileGenerator:
 def main():
     if len(sys.argv) < 2:
         print "Usage: gen_imapsync_makefile <data_file.csv>"
-        print "CSV Format: <remote_username>,<local_username>,<remote_password>,<local_password>,<remote_imap_host>,<remote_imap_port>,<local_imap_host>"
+        print "CSV Format: <remote_username>,<local_username>,<remote_password>,<local_password>,<remote_imap_host>," \
+              "<remote_imap_port>,<local_imap_host>"
         exit()
 
     data_file = sys.argv[1]
