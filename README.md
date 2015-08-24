@@ -17,5 +17,5 @@ Run imapsync parallely for multiple mailboxes
 ```
 ./gen_imapsync_makefile <your_data_file>.csv
 ```
-* You should get a generated Makefile in the current directory.
-* Run make -jn where n is the number of parallel imapsync processes you want to run.
+* You should get a generated `Makefile` in the current directory.
+* Run `make -jn` where n is the number of parallel imapsync processes you want to run.
