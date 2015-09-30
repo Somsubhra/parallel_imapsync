@@ -28,7 +28,7 @@ class MakefileGenerator:
     @staticmethod
     def escape_bash_string(s):
       result = ""
-      special_chars = ""
+      special_chars = "\$!"
       for char in s:
         if char in special_chars:
           result += "\\"
