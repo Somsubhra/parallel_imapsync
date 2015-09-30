@@ -25,6 +25,16 @@ class MakefileGenerator:
 
         data_file.close()
 
+    @staticmethod
+    def escape_bash_string(s):
+      result = ""
+      special_chars = ""
+      for char in s:
+        if char in special_chars:
+          result += "\\"
+        result += char
+      return result
+
     def generate(self):
         num_records = len(self.data_list)
 
@@ -36,22 +46,22 @@ class MakefileGenerator:
             target_string = "record" + str(index)
             makefile_targets["all"] += target_string + " "
             record = self.data_list[index]
-            makefile_targets[target_string] = "imapsync --host1 \"" + record["remote_imap_host"] + "\"" \
-                                              " --user1 \"" + record["remote_username"] + "\"" \
-                                              " --port1 " + record["remote_imap_port"] + \
-                                              " --password1 \"" + record["remote_password"] + "\"" \
+            makefile_targets[target_string] = "imapsync --host1 \"" + MakefileGenerator.escape_bash_string(record["remote_imap_host"]) + "\"" \
+                                              " --user1 \"" + MakefileGenerator.escape_bash_string(record["remote_username"]) + "\"" \
+                                              " --port1 " + MakefileGenerator.escape_bash_string(record["remote_imap_port"]) + \
+                                              " --password1 \"" + MakefileGenerator.escape_bash_string(record["remote_password"]) + "\"" \
                                               " --authmech1 LOGIN" \
-                                              " --host2 \"" + record["local_imap_host"] + "\"" \
+                                              " --host2 \"" + MakefileGenerator.escape_bash_string(record["local_imap_host"]) + "\"" \
                                               " --port2 143" \
-                                              " --user2 \"" + record["local_username"] + "\"" \
-                                              " --password2 \"" + record["local_password"] + "\"" \
+                                              " --user2 \"" + MakefileGenerator.escape_bash_string(record["local_username"]) + "\"" \
+                                              " --password2 \"" + MakefileGenerator.escape_bash_string(record["local_password"]) + "\"" \
                                               " --authmech2 LOGIN" \
                                               " --subscribe" \
                                               " --sep2 \"/\"" \
                                               " --prefix2 \"oldmails/\"" \
                                               " --sep1 \"/\" &&" \
-                                              " echo \"[`date`] " + record["remote_username"] + " -> " + \
-                                              record["local_username"] + \
+                                              " echo \"[`date`] " + MakefileGenerator.escape_bash_string(record["remote_username"]) + " -> " + \
+                                              MakefileGenerator.escape_bash_string(record["local_username"]) + \
                                               " exited with code $$?\" >> " \
                                               + LOGFILE_PATH
 
